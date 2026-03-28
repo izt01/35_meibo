@@ -11,7 +11,7 @@
 <link rel="apple-touch-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAYAAAA9zQYyAAAEIUlEQVR4nO3dQW7TUBSG0aRiD0jtCLEDhpQdsAUqZiyKGWq3wA5oh+ygYtRKrKIMUFBbktTxe8+O/3fOvLZlPl1u0sRdr2Z0+v7Tw5znp437m6v1XOee7MTi7dtUkTc9iYjZpmXcTQ4sZIZoEXbVAwqZMWqGXeVAQqaGGmGflB5AzNRSo6WioMVMbaVNjRrxQmYKY1aQgye0mJnKmNYOClrMTO3Q5gYHLWbmckh7g4IWM3Mb2uCLQYuZYzGkxVdTXEgvfn75Mfpn3339UPFK+rV3QpvOw5XEXOPne/FSkzuDFvNwtWIU9TD72twatJiHqx2hqIfZ1WjxZzl61io+UY/3X9CmM0uxrVUTmihPgjadWZrnzZrQRPkXtOnMUj1u14QmSpe/+r67vrytcZzf3968rXGcbWpd49n5RbNrPEbr1aqfdaNWJBstg379+VfVa+0h7Pubq3UXE7p2yEu0uQfpYcfv0GJ+Kv1+xAdNX5qtHMfweYTae2iKu+vL25b7/xCtPv990ssLQvKdvv/0ELtymM77pd6f2KCn0CqK1NimIOhCteMTcxlBV1ArQjGXE3QlpTGKuY4uflM4FVHOz4QmiqCJ0mzlmPtJQHefZz39Isz9b9SCCU0UQRNF0EQRNFFig07/Zkap1PsTGzR9ig46dQqVSr4v0UHTn/igk6fRGOn3Y93TV7DSv/G8T3rIG10FvdFT2L2EvNFl0OSK36Hpi6CJImiiCJoogiaKoIkiaKIImiiCJoqgiSJoogiaKIImiqCJImiiCJoogiaKoIkiaKI0ez703fXl91bHZvnOzi8+tjiuCU0UQRNF0ETxXA6imNBEETRRBE0UQRNF0EQRNFEETRRBE0XQRBE0UQRNFEETRdBEETRRBE0UQRNF0EQRNFEETRRBE0XQRBE0UTwKjL1aPbKrFROaKIImiqCJ4lFgRDGhiSJoogiaKIImiqCJImiiCJoogiaKoIkiaKIImiiCJoqgiSJoogiaKIImiqCJImiiCJoogiaKoIkiaKJ4FBh7eRQYzEjQRBE0UTwKjCgmNFEETRRBE0XQRBE0UQRNFEETRdBEETRRBE0UQRNF0EQRNFEETRRBE0XQRBE0UQRNlJP7m6v13BcBNdzfXK1NaKIImiiCJoqgiXKyWv1dpue+ECixadiEJoqgifIvaGsHS/W4XROaKE+CNqVZmufNmtBE+S9oU5ql2NaqCU2UrUGb0hy7XY3unNCi5ljta3PvyiFqjs1LTdqhifJi0KY0x2JIi4MmtKiZ29AGB68comYuh7R30A4taqZ2aHMHvygUNVMZ01pRnP4KLS2UDM2it+1Ma2orbar4fWhRU0uNlqrGaAVhjJpDscl0FTZDtPjfvem6IGy2abmmTrb/irtvU73WmvUFncgzzflGwR86BigQXuOoggAAAABJRU5ErkJggg==">
 <link rel="icon" type="image/png" sizes="32x32" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAA7ElEQVR4nGNkQANSVjH/0cWoCZ4dW8KIzGeip+XY7GDCJUEMOJd2BIUmxxFMlFqOi0+sIxiJtfzp0cV3kfkvFyoqMzAwMIjH37+LzIbJS1vHKhNjLgu6ADafIBtMLHh6dDHcYejAaJYNnM2ETQExAN1R5DiSIgcgW0qu5RQ7gBqAKAfgiktq6CE6F9AKDHgUYGTDp0cXb6W1pdLWsd4w9oCHwIA7YDQRDrgD6JILkFM9OhjwEBhwBwx4LhhNAwPugAFPAwMeAgPvAPS+Gj3Bs2NLGJlgjIGwnIEBKQro6Qhku5hwSdDDcgYGBgYAyJtfvvyc8t4AAAAASUVORK5CYII=">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>35地区 名簿管理システム</title>
+<title>35支区 名簿管理システム</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&display=swap');
@@ -298,7 +298,7 @@
     width: 100%;
     border-collapse: collapse;
     font-size: 0.83rem;
-    min-width: 780px;
+    min-width: 880px;
   }
   thead { background: var(--primary); color: #fff; }
   thead th {
@@ -516,7 +516,7 @@
 <body>
 
 <header>
-  <h1>📋 35地区 名簿管理</h1>
+  <h1>📋 35支区 名簿管理</h1>
   <div class="fb-status">
     <span class="dot" id="fb-dot"></span>
     <span id="fb-label">接続中...</span>
@@ -537,13 +537,18 @@
 
       <div class="form-group">
         <label class="field-label">班名<span class="required">必須</span></label>
-        <input type="text" id="f-han" placeholder="例：第1班">
+        <input type="text" id="f-han" placeholder="例：〇〇班 ※「班」まで記入">
       </div>
 
       <div class="form-group">
         <label class="field-label">氏名（フルネーム）<span class="required">必須</span></label>
         <input type="text" id="f-name" placeholder="例：山田 太郎" oninput="checkDupInput(this)">
         <div class="dup-warn" id="input-dup-warn">⚠️ 同じ氏名がすでに登録されています</div>
+      </div>
+
+      <div class="form-group">
+        <label class="field-label">ふりがな（氏名）<span style="color:var(--text-muted);font-size:0.7rem;margin-left:4px;">任意</span></label>
+        <input type="text" id="f-kana" placeholder="例：やまだ たろう">
       </div>
 
       <div class="divider"></div>
@@ -667,6 +672,7 @@
               <th>#</th>
               <th>班名</th>
               <th>氏名</th>
+              <th>ふりがな</th>
               <th>コース</th>
               <th>御開扉</th>
               <th>参加日</th>
@@ -677,7 +683,7 @@
             </tr>
           </thead>
           <tbody id="meibo-body">
-            <tr><td colspan="10"><div class="empty-state"><div class="icon">⏳</div>読み込み中...</div></td></tr>
+            <tr><td colspan="11"><div class="empty-state"><div class="icon">⏳</div>読み込み中...</div></td></tr>
           </tbody>
         </table>
       </div>
@@ -701,6 +707,10 @@
       <label class="field-label">氏名（フルネーム）<span class="required">必須</span></label>
       <input type="text" id="edit-name" placeholder="例：山田 太郎">
       <div class="dup-warn" id="edit-dup-warn">⚠️ 同じ氏名がすでに登録されています</div>
+    </div>
+    <div class="form-group">
+      <label class="field-label">ふりがな（氏名）<span style="color:var(--text-muted);font-size:0.7rem;margin-left:4px;">任意</span></label>
+      <input type="text" id="edit-kana" placeholder="例：やまだ たろう">
     </div>
     <div class="divider"></div>
     <div class="form-group">
@@ -817,6 +827,7 @@ window.addRecord = async function() {
   const time    = (kaisou === 'あり' && day === '日曜日') ? (document.querySelector('input[name="time"]:checked')?.value || '') : '';
   const payment = document.querySelector('input[name="payment"]:checked')?.value || '';
   const biko    = document.getElementById('f-biko').value.trim();
+  const kana    = document.getElementById('f-kana').value.trim();
 
   if (!han)    { showToast('❌ 班名を入力してください', true); return; }
   if (!name)   { showToast('❌ 氏名を入力してください', true); return; }
@@ -832,10 +843,11 @@ window.addRecord = async function() {
   btn.textContent = '登録中...';
 
   try {
-    await push(ref(db, 'meibo'), { han, name, course, kaisou, day, time, payment, biko, createdAt: Date.now() });
+    await push(ref(db, 'meibo'), { han, name, kana, course, kaisou, day, time, payment, biko, createdAt: Date.now() });
     showToast('✅ 登録しました！');
     document.getElementById('f-han').value = '';
     document.getElementById('f-name').value = '';
+    document.getElementById('f-kana').value = '';
     document.getElementById('f-biko').value = '';
     document.querySelectorAll('input[type="radio"]').forEach(r => r.checked = false);
     document.getElementById('sub-day').classList.remove('show');
@@ -870,6 +882,7 @@ window.saveEdit = async function() {
   const time    = (kaisou === 'あり' && day === '日曜日') ? (document.querySelector('input[name="e-time"]:checked')?.value || '') : '';
   const payment = document.querySelector('input[name="e-payment"]:checked')?.value || '';
   const biko    = document.getElementById('edit-biko').value.trim();
+  const kana    = document.getElementById('edit-kana').value.trim();
 
   if (!han)    { showToast('❌ 班名を入力してください', true); return; }
   if (!name)   { showToast('❌ 氏名を入力してください', true); return; }
@@ -881,7 +894,7 @@ window.saveEdit = async function() {
   if (!payment){ showToast('❌ 入金を選択してください', true); return; }
 
   try {
-    await update(ref(db, 'meibo/' + id), { han, name, course, kaisou, day, time, payment, biko });
+    await update(ref(db, 'meibo/' + id), { han, name, kana, course, kaisou, day, time, payment, biko });
     closeEditModal();
     showToast('✅ 更新しました！');
   } catch(e) {
@@ -907,6 +920,7 @@ function openEditModal(id) {
   document.getElementById('edit-han').value  = r.han  || '';
   document.getElementById('edit-name').value = r.name || '';
   document.getElementById('edit-biko').value = r.biko || '';
+  document.getElementById('edit-kana').value = r.kana || '';
   document.getElementById('edit-dup-warn').classList.remove('show');
 
   // ラジオ初期化
@@ -1034,15 +1048,16 @@ function renderTable() {
 
   const tbody = document.getElementById('meibo-body');
   if (data.length === 0) {
-    tbody.innerHTML = '<tr><td colspan="10"><div class="empty-state"><div class="icon">📭</div>データがありません</div></td></tr>';
+    tbody.innerHTML = '<tr><td colspan="11"><div class="empty-state"><div class="icon">📭</div>データがありません</div></td></tr>';
     return;
   }
 
   tbody.innerHTML = data.map((r, i) => `
     <tr>
       <td style="color:var(--text-muted);font-size:0.73rem">${i + 1}</td>
-      <td>${esc(r.han)}</td>
+      <td style="white-space:nowrap">${esc(r.han)}</td>
       <td style="white-space:nowrap"><strong>${esc(r.name)}</strong></td>
+      <td style="white-space:nowrap;color:var(--text-muted);font-size:0.78rem">${esc(r.kana) || '—'}</td>
       <td><span class="badge ${(r.course||'').toLowerCase()}">${esc(r.course)}</span></td>
       <td><span class="badge ${r.kaisou === 'あり' ? 'kaisou-y' : ''}">${esc(r.kaisou)}</span></td>
       <td>${r.day ? `<span class="badge ${r.day === '土曜日' ? 'sat' : 'sun'}">${esc(r.day)}</span>` : '<span style="color:var(--text-muted)">—</span>'}</td>
@@ -1062,7 +1077,17 @@ function doPDFExport(sortBy) {
   document.getElementById('pdf-sort-modal').classList.remove('show');
   const base = getFilteredRecords().slice();
   const data = sortBy === 'name'
-    ? base.sort((a, b) => (a.name || '').localeCompare(b.name || '', 'ja'))
+    ? base.sort((a, b) => {
+        const ak = a.kana || '';
+        const bk = b.kana || '';
+        // ふりがなあり同士 → 五十音順
+        if (ak && bk) return ak.localeCompare(bk, 'ja');
+        // ふりがなあり → 先
+        if (ak && !bk) return -1;
+        if (!ak && bk) return 1;
+        // ふりがな両方なし → 氏名で比較
+        return (a.name || '').localeCompare(b.name || '', 'ja');
+      })
     : base.sort((a, b) => (a.han || '').localeCompare(b.han || '', 'ja') || (a.name || '').localeCompare(b.name || '', 'ja'));
   const sortLabel = sortBy === 'name' ? 'なまえ順' : '班名順';
   const now = new Date().toLocaleDateString('ja-JP');
@@ -1151,7 +1176,7 @@ function doPDFExport(sortBy) {
   <div class="meta">出力日：${now}　合計 ${data.length}名</div>
   ${summaryHtml}
   <div class="total">▼ 名簿（${sortLabel}）</div>
-  <table class="meibo"><thead><tr><th>#</th><th>班名</th><th>氏名</th><th>コース</th><th>御開扉</th><th>参加日</th><th>回次</th><th>入金</th><th>備考</th></tr></thead>
+  <table class="meibo"><thead><tr><th>#</th><th>班名</th><th>氏名</th><th>ふりがな</th><th>コース</th><th>御開扉</th><th>参加日</th><th>回次</th><th>入金</th><th>備考</th></tr></thead>
   <tbody>${rows}</tbody></table>
   <script>window.onload=()=>window.print();<\/script>
   </body></html>`;
@@ -1164,10 +1189,10 @@ function doPDFExport(sortBy) {
 // ===== Excel出力 =====
 function exportExcel() {
   const data = getFilteredRecords();
-  const wsData = [['#','班名','氏名','コース','御開扉','参加日','回次','入金','備考']];
-  data.forEach((r, i) => wsData.push([i+1, r.han, r.name, r.course, r.kaisou, r.day||'', r.time||'', r.payment||'', r.biko||'']));
+  const wsData = [['#','班名','氏名','ふりがな','コース','御開扉','参加日','回次','入金','備考']];
+  data.forEach((r, i) => wsData.push([i+1, r.han, r.name, r.kana||'', r.course, r.kaisou, r.day||'', r.time||'', r.payment||'', r.biko||'']));
   const ws = XLSX.utils.aoa_to_sheet(wsData);
-  ws['!cols'] = [{wch:4},{wch:12},{wch:16},{wch:8},{wch:8},{wch:10},{wch:8},{wch:8},{wch:20}];
+  ws['!cols'] = [{wch:4},{wch:12},{wch:16},{wch:16},{wch:8},{wch:8},{wch:10},{wch:8},{wch:8},{wch:20}];
   const wb = XLSX.utils.book_new();
   XLSX.utils.book_append_sheet(wb, ws, '名簿');
   XLSX.writeFile(wb, `名簿_${new Date().toISOString().slice(0,10)}.xlsx`);
