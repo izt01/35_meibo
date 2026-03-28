@@ -656,6 +656,7 @@
         <button class="btn-sm btn-reset" onclick="resetFilters()">リセット</button>
         <button class="btn-sm btn-pdf" onclick="document.getElementById('pdf-sort-modal').classList.add('show')">📄 PDF</button>
         <button class="btn-sm btn-excel" onclick="exportExcel()">📊 Excel</button>
+        <button class="btn-sm" style="background:#6d28d9;color:#fff;" onclick="document.getElementById('mail-modal').classList.add('show')">✉️ メール</button>
         <span class="count-info" id="count-info"></span>
       </div>
     </div>
@@ -770,6 +771,71 @@
       <button class="btn-save" style="background:#2e7d5e;" onclick="doPDFExport('name')">🔤 なまえ順</button>
     </div>
     <button class="btn-cancel" style="margin-top:10px;width:100%;" onclick="document.getElementById('pdf-sort-modal').classList.remove('show')">キャンセル</button>
+  </div>
+</div>
+
+<!-- ===== メール送信モーダル ===== -->
+<div class="modal-overlay" id="mail-modal">
+  <div class="modal-box" style="max-width:460px;">
+    <div class="modal-title">✉️ メールで名簿を送信</div>
+
+    <!-- 送信形式タブ -->
+    <div style="display:flex;gap:0;margin-bottom:18px;border:1.5px solid var(--border);border-radius:8px;overflow:hidden;">
+      <button id="mail-tab-text" onclick="switchMailTab('text')"
+        style="flex:1;padding:9px;font-size:0.82rem;font-weight:700;font-family:inherit;border:none;cursor:pointer;background:var(--primary);color:#fff;transition:all 0.15s;">
+        📝 テキスト形式
+      </button>
+      <button id="mail-tab-pdf" onclick="switchMailTab('pdf')"
+        style="flex:1;padding:9px;font-size:0.82rem;font-weight:700;font-family:inherit;border:none;cursor:pointer;background:var(--surface2);color:var(--text-muted);transition:all 0.15s;">
+        📄 PDF形式
+      </button>
+    </div>
+
+    <!-- 共通フィールド -->
+    <div class="form-group">
+      <label class="field-label">宛先メールアドレス<span class="required">必須</span></label>
+      <input type="text" id="mail-to" placeholder="例：example@gmail.com">
+    </div>
+    <div class="form-group">
+      <label class="field-label">件名</label>
+      <input type="text" id="mail-subject" placeholder="例：名簿一覧をお送りします">
+    </div>
+    <div class="form-group">
+      <label class="field-label">メッセージ（任意）</label>
+      <textarea id="mail-message" placeholder="本文に添えるメッセージを入力..." style="min-height:72px;"></textarea>
+    </div>
+    <div class="form-group">
+      <label class="field-label">名簿の並び順</label>
+      <div class="radio-group">
+        <div class="radio-btn"><input type="radio" name="mail-sort" id="ms-han" value="han" checked><label for="ms-han">班名順</label></div>
+        <div class="radio-btn"><input type="radio" name="mail-sort" id="ms-name" value="name"><label for="ms-name">なまえ順</label></div>
+      </div>
+    </div>
+
+    <!-- テキスト形式の説明 -->
+    <div id="mail-info-text" style="font-size:0.76rem;color:var(--text-muted);background:var(--surface2);border-radius:7px;padding:9px 12px;margin-bottom:4px;line-height:1.6;">
+      📝 名簿一覧と集計をテキストでメール本文に自動入力します。メールアプリが開いたらそのまま送信できます。
+    </div>
+
+    <!-- PDF形式の説明 -->
+    <div id="mail-info-pdf" style="display:none;font-size:0.76rem;color:var(--text-muted);background:#fef9c3;border-radius:7px;padding:9px 12px;margin-bottom:4px;line-height:1.7;border:1px solid #fde68a;">
+      📄 <strong style="color:#92400e;">PDF添付の手順：</strong><br>
+      ① 「PDFを作成する」ボタンを押す<br>
+      ② 印刷ダイアログで <strong>「PDFで保存」</strong> を選択して保存<br>
+      ③ 続けて「メールアプリを開く」ボタンを押す<br>
+      ④ 保存したPDFをメールに添付して送信
+    </div>
+
+    <div class="modal-actions" id="mail-actions-text">
+      <button class="btn-cancel" onclick="document.getElementById('mail-modal').classList.remove('show')">キャンセル</button>
+      <button class="btn-save" style="background:#6d28d9;" onclick="sendMailText()">✉️ メールを作成</button>
+    </div>
+
+    <div id="mail-actions-pdf" style="display:none;flex-direction:column;gap:8px;margin-top:16px;">
+      <button class="btn-save" style="background:#b94040;width:100%;" onclick="openPDFForMail()">① PDFを作成する（印刷画面）</button>
+      <button class="btn-save" style="background:#6d28d9;width:100%;" onclick="openMailForPDF()">② メールアプリを開く</button>
+      <button class="btn-cancel" style="width:100%;" onclick="document.getElementById('mail-modal').classList.remove('show')">キャンセル</button>
+    </div>
   </div>
 </div>
 
@@ -1176,7 +1242,7 @@ function doPDFExport(sortBy) {
   <div class="meta">出力日：${now}　合計 ${data.length}名</div>
   ${summaryHtml}
   <div class="total">▼ 名簿（${sortLabel}）</div>
-  <table class="meibo"><thead><tr><th>#</th><th>班名</th><th>氏名</th><th>ふりがな</th><th>コース</th><th>御開扉</th><th>参加日</th><th>回次</th><th>入金</th><th>備考</th></tr></thead>
+  <table class="meibo"><thead><tr><th>#</th><th>班名</th><th>氏名</th><th>コース</th><th>御開扉</th><th>参加日</th><th>回次</th><th>入金</th><th>備考</th></tr></thead>
   <tbody>${rows}</tbody></table>
   <script>window.onload=()=>window.print();<\/script>
   </body></html>`;
@@ -1196,6 +1262,118 @@ function exportExcel() {
   const wb = XLSX.utils.book_new();
   XLSX.utils.book_append_sheet(wb, ws, '名簿');
   XLSX.writeFile(wb, `名簿_${new Date().toISOString().slice(0,10)}.xlsx`);
+}
+
+// ===== メールタブ切り替え =====
+function switchMailTab(tab) {
+  const isText = tab === 'text';
+  document.getElementById('mail-tab-text').style.background = isText ? 'var(--primary)' : 'var(--surface2)';
+  document.getElementById('mail-tab-text').style.color      = isText ? '#fff' : 'var(--text-muted)';
+  document.getElementById('mail-tab-pdf').style.background  = isText ? 'var(--surface2)' : '#b94040';
+  document.getElementById('mail-tab-pdf').style.color       = isText ? 'var(--text-muted)' : '#fff';
+  document.getElementById('mail-info-text').style.display   = isText ? 'block' : 'none';
+  document.getElementById('mail-info-pdf').style.display    = isText ? 'none'  : 'block';
+  document.getElementById('mail-actions-text').style.display = isText ? 'flex'  : 'none';
+  document.getElementById('mail-actions-pdf').style.display  = isText ? 'none'  : 'flex';
+}
+
+// ===== メール共通：データ取得・ソート =====
+function getMailData() {
+  const sortBy = document.querySelector('input[name="mail-sort"]:checked')?.value || 'han';
+  const base = getFilteredRecords().slice();
+  return sortBy === 'name'
+    ? base.sort((a, b) => {
+        const ak = a.kana || '', bk = b.kana || '';
+        if (ak && bk) return ak.localeCompare(bk, 'ja');
+        if (ak && !bk) return -1;
+        if (!ak && bk) return 1;
+        return (a.name || '').localeCompare(b.name || '', 'ja');
+      })
+    : base.sort((a, b) => (a.han || '').localeCompare(b.han || '', 'ja') || (a.name || '').localeCompare(b.name || '', 'ja'));
+}
+
+// ===== テキスト形式でメール作成 =====
+function sendMailText() {
+  const to      = document.getElementById('mail-to').value.trim();
+  const subject = document.getElementById('mail-subject').value.trim() || '名簿一覧';
+  const message = document.getElementById('mail-message').value.trim();
+  const sortBy  = document.querySelector('input[name="mail-sort"]:checked')?.value || 'han';
+
+  if (!to) { showToast('❌ 宛先メールアドレスを入力してください', true); return; }
+
+  const data = getMailData();
+  const sortLabel = sortBy === 'name' ? 'なまえ順' : '班名順';
+  const now = new Date().toLocaleDateString('ja-JP');
+
+  // 名簿テキスト
+  const sep  = '─'.repeat(60);
+  const rows = data.map((r, i) => {
+    const cols = [
+      String(i + 1).padStart(2),
+      (r.han     || '').padEnd(10),
+      (r.name    || '').padEnd(12),
+      (r.course  || '').padEnd(4),
+      (r.kaisou  || '').padEnd(4),
+      (r.day     || '—').padEnd(6),
+      (r.time    || '—').padEnd(5),
+      (r.payment || '').padEnd(4),
+      r.biko || '',
+    ];
+    return cols.join('  ');
+  }).join('\n');
+
+  // 集計
+  const cnt = (key, val) => data.filter(r => r[key] === val).length;
+  const hans = [...new Set(data.map(r => r.han).filter(Boolean))].sort((a,b) => a.localeCompare(b,'ja'));
+
+  const body = [
+    ...(message ? [message, ''] : []),
+    '━━━━━━━━━━━━━━━━━━━━━━━━━━',
+    `名簿一覧　${now}　合計${data.length}名（${sortLabel}）`,
+    '━━━━━━━━━━━━━━━━━━━━━━━━━━',
+    '',
+    '【集計】',
+    '■ 班別：' + hans.map(h => `${h} ${cnt('han',h)}名`).join('、'),
+    `■ コース：A ${cnt('course','A')}名　B ${cnt('course','B')}名　C ${cnt('course','C')}名`,
+    `■ 御開扉：あり ${cnt('kaisou','あり')}名（土曜${cnt('day','土曜日')}名／日曜${cnt('day','日曜日')}名、1回目${cnt('time','1回目')}名・2回目${cnt('time','2回目')}名）　なし ${cnt('kaisou','なし')}名`,
+    `■ 入金：振込 ${cnt('payment','振込')}名　現金 ${cnt('payment','現金')}名`,
+    '',
+    sep,
+    '# 　班名　　　　氏名　　　　　コース　御開扉　参加日　回次　　入金',
+    sep,
+    rows,
+    sep,
+  ].join('\n');
+
+  const mailto = `mailto:${encodeURIComponent(to)}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  document.getElementById('mail-modal').classList.remove('show');
+  window.location.href = mailto;
+}
+
+// ===== PDF形式：印刷画面を開く =====
+function openPDFForMail() {
+  const sortBy = document.querySelector('input[name="mail-sort"]:checked')?.value || 'han';
+  doPDFExport(sortBy);
+}
+
+// ===== PDF形式：メールアプリを開く =====
+function openMailForPDF() {
+  const to      = document.getElementById('mail-to').value.trim();
+  const subject = document.getElementById('mail-subject').value.trim() || '名簿一覧';
+  const message = document.getElementById('mail-message').value.trim();
+
+  if (!to) { showToast('❌ 宛先メールアドレスを入力してください', true); return; }
+
+  const now = new Date().toLocaleDateString('ja-JP');
+  const body = [
+    ...(message ? [message, ''] : []),
+    `名簿一覧（${now}）をPDFで添付します。`,
+    'ご確認よろしくお願いいたします。',
+  ].join('\n');
+
+  const mailto = `mailto:${encodeURIComponent(to)}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  document.getElementById('mail-modal').classList.remove('show');
+  window.location.href = mailto;
 }
 
 // ===== トースト =====
