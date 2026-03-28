@@ -11,7 +11,7 @@
 <link rel="apple-touch-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAYAAAA9zQYyAAAEIUlEQVR4nO3dQW7TUBSG0aRiD0jtCLEDhpQdsAUqZiyKGWq3wA5oh+ygYtRKrKIMUFBbktTxe8+O/3fOvLZlPl1u0sRdr2Z0+v7Tw5znp437m6v1XOee7MTi7dtUkTc9iYjZpmXcTQ4sZIZoEXbVAwqZMWqGXeVAQqaGGmGflB5AzNRSo6WioMVMbaVNjRrxQmYKY1aQgye0mJnKmNYOClrMTO3Q5gYHLWbmckh7g4IWM3Mb2uCLQYuZYzGkxVdTXEgvfn75Mfpn3339UPFK+rV3QpvOw5XEXOPne/FSkzuDFvNwtWIU9TD72twatJiHqx2hqIfZ1WjxZzl61io+UY/3X9CmM0uxrVUTmihPgjadWZrnzZrQRPkXtOnMUj1u14QmSpe/+r67vrytcZzf3968rXGcbWpd49n5RbNrPEbr1aqfdaNWJBstg379+VfVa+0h7Pubq3UXE7p2yEu0uQfpYcfv0GJ+Kv1+xAdNX5qtHMfweYTae2iKu+vL25b7/xCtPv990ssLQvKdvv/0ELtymM77pd6f2KCn0CqK1NimIOhCteMTcxlBV1ArQjGXE3QlpTGKuY4uflM4FVHOz4QmiqCJ0mzlmPtJQHefZz39Isz9b9SCCU0UQRNF0EQRNFFig07/Zkap1PsTGzR9ig46dQqVSr4v0UHTn/igk6fRGOn3Y93TV7DSv/G8T3rIG10FvdFT2L2EvNFl0OSK36Hpi6CJImiiCJoogiaKoIkiaKIImiiCJoqgiSJoogiaKIImiqCJImiiCJoogiaKoIkiaKI0ez703fXl91bHZvnOzi8+tjiuCU0UQRNF0ETxXA6imNBEETRRBE0UQRNF0EQRNFEETRRBE0XQRBE0UQRNFEETRdBEETRRBE0UQRNF0EQRNFEETRRBE0XQRBE0UTwKjL1aPbKrFROaKIImiqCJ4lFgRDGhiSJoogiaKIImiqCJImiiCJoogiaKoIkiaKIImiiCJoqgiSJoogiaKIImiqCJImiiCJoogiaKoIkiaKJ4FBh7eRQYzEjQRBE0UTwKjCgmNFEETRRBE0XQRBE0UQRNFEETRdBEETRRBE0UQRNF0EQRNFEETRRBE0XQRBE0UQRNlJP7m6v13BcBNdzfXK1NaKIImiiCJoqgiXKyWv1dpue+ECixadiEJoqgifIvaGsHS/W4XROaKE+CNqVZmufNmtBE+S9oU5ql2NaqCU2UrUGb0hy7XY3unNCi5ljta3PvyiFqjs1LTdqhifJi0KY0x2JIi4MmtKiZ29AGB68comYuh7R30A4taqZ2aHMHvygUNVMZ01pRnP4KLS2UDM2it+1Ma2orbar4fWhRU0uNlqrGaAVhjJpDscl0FTZDtPjfvem6IGy2abmmTrb/irtvU73WmvUFncgzzflGwR86BigQXuOoggAAAABJRU5ErkJggg==">
 <link rel="icon" type="image/png" sizes="32x32" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAA7ElEQVR4nGNkQANSVjH/0cWoCZ4dW8KIzGeip+XY7GDCJUEMOJd2BIUmxxFMlFqOi0+sIxiJtfzp0cV3kfkvFyoqMzAwMIjH37+LzIbJS1vHKhNjLgu6ADafIBtMLHh6dDHcYejAaJYNnM2ETQExAN1R5DiSIgcgW0qu5RQ7gBqAKAfgiktq6CE6F9AKDHgUYGTDp0cXb6W1pdLWsd4w9oCHwIA7YDQRDrgD6JILkFM9OhjwEBhwBwx4LhhNAwPugAFPAwMeAgPvAPS+Gj3Bs2NLGJlgjIGwnIEBKQro6Qhku5hwSdDDcgYGBgYAyJtfvvyc8t4AAAAASUVORK5CYII=">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>35支区 名簿管理システム</title>
+<title>35地区 名簿管理システム</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&display=swap');
@@ -234,7 +234,7 @@
   /* ===== FILTER ===== */
   .filter-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
     gap: 12px;
   }
   .filter-group > .flabel {
@@ -298,7 +298,7 @@
     width: 100%;
     border-collapse: collapse;
     font-size: 0.83rem;
-    min-width: 660px;
+    min-width: 780px;
   }
   thead { background: var(--primary); color: #fff; }
   thead th {
@@ -516,7 +516,7 @@
 <body>
 
 <header>
-  <h1>📋 35支区 名簿管理</h1>
+  <h1>📋 35地区 名簿管理</h1>
   <div class="fb-status">
     <span class="dot" id="fb-dot"></span>
     <span id="fb-label">接続中...</span>
@@ -537,7 +537,7 @@
 
       <div class="form-group">
         <label class="field-label">班名<span class="required">必須</span></label>
-        <input type="text" id="f-han" placeholder="例：〇〇班 ※「班」まで記入">
+        <input type="text" id="f-han" placeholder="例：第1班">
       </div>
 
       <div class="form-group">
@@ -604,9 +604,11 @@
     <div class="card">
       <div class="card-title">🔍 絞り込み</div>
       <div class="filter-grid">
-        <div class="filter-group">
+        <div class="filter-group" style="grid-column:1/-1">
           <span class="flabel">班名</span>
-          <div class="check-list" id="filter-han"></div>
+          <select id="filter-han" onchange="renderTable()" style="width:100%;border:1.5px solid var(--border);border-radius:8px;padding:8px 11px;font-size:0.88rem;font-family:inherit;color:var(--text);background:var(--bg);appearance:auto;">
+            <option value="">すべて</option>
+          </select>
         </div>
         <div class="filter-group">
           <span class="flabel">コース</span>
@@ -647,7 +649,7 @@
       </div>
       <div class="filter-actions">
         <button class="btn-sm btn-reset" onclick="resetFilters()">リセット</button>
-        <button class="btn-sm btn-pdf" onclick="exportPDF()">📄 PDF</button>
+        <button class="btn-sm btn-pdf" onclick="document.getElementById('pdf-sort-modal').classList.add('show')">📄 PDF</button>
         <button class="btn-sm btn-excel" onclick="exportExcel()">📊 Excel</button>
         <span class="count-info" id="count-info"></span>
       </div>
@@ -745,6 +747,19 @@
       <button class="btn-cancel" onclick="closeEditModal()">キャンセル</button>
       <button class="btn-save" onclick="saveEdit()">💾 保存する</button>
     </div>
+  </div>
+</div>
+
+
+<!-- ===== PDF順番選択モーダル ===== -->
+<div class="modal-overlay" id="pdf-sort-modal">
+  <div class="modal-box" style="max-width:340px;text-align:center;">
+    <div class="modal-title" style="justify-content:center;">📄 PDF出力 — 並び順を選択</div>
+    <div style="display:flex;gap:10px;margin-top:4px;">
+      <button class="btn-save" style="background:#1a3a5c;" onclick="doPDFExport('han')">🏷️ 班名順</button>
+      <button class="btn-save" style="background:#2e7d5e;" onclick="doPDFExport('name')">🔤 なまえ順</button>
+    </div>
+    <button class="btn-cancel" style="margin-top:10px;width:100%;" onclick="document.getElementById('pdf-sort-modal').classList.remove('show')">キャンセル</button>
   </div>
 </div>
 
@@ -970,6 +985,8 @@ function toggleChip(el) {
 
 function resetFilters() {
   document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+  const sel = document.getElementById('filter-han');
+  if (sel) sel.value = '';
   renderTable();
 }
 
@@ -980,7 +997,9 @@ function getFilteredRecords() {
     if (!f[key]) f[key] = [];
     f[key].push(c.dataset.val);
   });
+  const hanVal = document.getElementById('filter-han')?.value || '';
   return (window._records || []).filter(r => {
+    if (hanVal && r.han !== hanVal) return false;
     for (const [key, vals] of Object.entries(f)) {
       if (!vals.includes(r[key] || '')) return false;
     }
@@ -989,18 +1008,16 @@ function getFilteredRecords() {
 }
 
 function updateHanFilter() {
-  const hans = [...new Set((window._records || []).map(r => r.han).filter(Boolean))].sort();
-  const container = document.getElementById('filter-han');
-  const active = [...container.querySelectorAll('.chip.active')].map(c => c.dataset.val);
-  container.innerHTML = '';
+  const hans = [...new Set((window._records || []).map(r => r.han).filter(Boolean))].sort((a,b) => a.localeCompare(b,'ja'));
+  const sel = document.getElementById('filter-han');
+  const current = sel.value;
+  sel.innerHTML = '<option value="">すべて</option>';
   hans.forEach(h => {
-    const el = document.createElement('span');
-    el.className = 'chip' + (active.includes(h) ? ' active' : '');
-    el.dataset.filter = 'han';
-    el.dataset.val = h;
-    el.textContent = h;
-    el.onclick = function() { toggleChip(this); };
-    container.appendChild(el);
+    const opt = document.createElement('option');
+    opt.value = h;
+    opt.textContent = h;
+    if (h === current) opt.selected = true;
+    sel.appendChild(opt);
   });
 }
 
@@ -1025,7 +1042,7 @@ function renderTable() {
     <tr>
       <td style="color:var(--text-muted);font-size:0.73rem">${i + 1}</td>
       <td>${esc(r.han)}</td>
-      <td><strong>${esc(r.name)}</strong></td>
+      <td style="white-space:nowrap"><strong>${esc(r.name)}</strong></td>
       <td><span class="badge ${(r.course||'').toLowerCase()}">${esc(r.course)}</span></td>
       <td><span class="badge ${r.kaisou === 'あり' ? 'kaisou-y' : ''}">${esc(r.kaisou)}</span></td>
       <td>${r.day ? `<span class="badge ${r.day === '土曜日' ? 'sat' : 'sun'}">${esc(r.day)}</span>` : '<span style="color:var(--text-muted)">—</span>'}</td>
@@ -1041,9 +1058,13 @@ function renderTable() {
 }
 
 // ===== PDF出力 =====
-function exportPDF() {
-  // 班名でソート（読み順）
-  const data = getFilteredRecords().slice().sort((a, b) => (a.han || '').localeCompare(b.han || '', 'ja'));
+function doPDFExport(sortBy) {
+  document.getElementById('pdf-sort-modal').classList.remove('show');
+  const base = getFilteredRecords().slice();
+  const data = sortBy === 'name'
+    ? base.sort((a, b) => (a.name || '').localeCompare(b.name || '', 'ja'))
+    : base.sort((a, b) => (a.han || '').localeCompare(b.han || '', 'ja') || (a.name || '').localeCompare(b.name || '', 'ja'));
+  const sortLabel = sortBy === 'name' ? 'なまえ順' : '班名順';
   const now = new Date().toLocaleDateString('ja-JP');
 
   // ===== 集計 =====
@@ -1129,7 +1150,7 @@ function exportPDF() {
   <h2>名簿一覧</h2>
   <div class="meta">出力日：${now}　合計 ${data.length}名</div>
   ${summaryHtml}
-  <div class="total">▼ 名簿（班名順）</div>
+  <div class="total">▼ 名簿（${sortLabel}）</div>
   <table class="meibo"><thead><tr><th>#</th><th>班名</th><th>氏名</th><th>コース</th><th>御開扉</th><th>参加日</th><th>回次</th><th>入金</th><th>備考</th></tr></thead>
   <tbody>${rows}</tbody></table>
   <script>window.onload=()=>window.print();<\/script>
