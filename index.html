@@ -11,7 +11,7 @@
 <link rel="apple-touch-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAYAAAA9zQYyAAAEIUlEQVR4nO3dQW7TUBSG0aRiD0jtCLEDhpQdsAUqZiyKGWq3wA5oh+ygYtRKrKIMUFBbktTxe8+O/3fOvLZlPl1u0sRdr2Z0+v7Tw5znp437m6v1XOee7MTi7dtUkTc9iYjZpmXcTQ4sZIZoEXbVAwqZMWqGXeVAQqaGGmGflB5AzNRSo6WioMVMbaVNjRrxQmYKY1aQgye0mJnKmNYOClrMTO3Q5gYHLWbmckh7g4IWM3Mb2uCLQYuZYzGkxVdTXEgvfn75Mfpn3339UPFK+rV3QpvOw5XEXOPne/FSkzuDFvNwtWIU9TD72twatJiHqx2hqIfZ1WjxZzl61io+UY/3X9CmM0uxrVUTmihPgjadWZrnzZrQRPkXtOnMUj1u14QmSpe/+r67vrytcZzf3968rXGcbWpd49n5RbNrPEbr1aqfdaNWJBstg379+VfVa+0h7Pubq3UXE7p2yEu0uQfpYcfv0GJ+Kv1+xAdNX5qtHMfweYTae2iKu+vL25b7/xCtPv990ssLQvKdvv/0ELtymM77pd6f2KCn0CqK1NimIOhCteMTcxlBV1ArQjGXE3QlpTGKuY4uflM4FVHOz4QmiqCJ0mzlmPtJQHefZz39Isz9b9SCCU0UQRNF0EQRNFFig07/Zkap1PsTGzR9ig46dQqVSr4v0UHTn/igk6fRGOn3Y93TV7DSv/G8T3rIG10FvdFT2L2EvNFl0OSK36Hpi6CJImiiCJoogiaKoIkiaKIImiiCJoqgiSJoogiaKIImiqCJImiiCJoogiaKoIkiaKI0ez703fXl91bHZvnOzi8+tjiuCU0UQRNF0ETxXA6imNBEETRRBE0UQRNF0EQRNFEETRRBE0XQRBE0UQRNFEETRdBEETRRBE0UQRNF0EQRNFEETRRBE0XQRBE0UTwKjL1aPbKrFROaKIImiqCJ4lFgRDGhiSJoogiaKIImiqCJImiiCJoogiaKoIkiaKIImiiCJoqgiSJoogiaKIImiqCJImiiCJoogiaKoIkiaKJ4FBh7eRQYzEjQRBE0UTwKjCgmNFEETRRBE0XQRBE0UQRNFEETRdBEETRRBE0UQRNF0EQRNFEETRRBE0XQRBE0UQRNlJP7m6v13BcBNdzfXK1NaKIImiiCJoqgiXKyWv1dpue+ECixadiEJoqgifIvaGsHS/W4XROaKE+CNqVZmufNmtBE+S9oU5ql2NaqCU2UrUGb0hy7XY3unNCi5ljta3PvyiFqjs1LTdqhifJi0KY0x2JIi4MmtKiZ29AGB68comYuh7R30A4taqZ2aHMHvygUNVMZ01pRnP4KLS2UDM2it+1Ma2orbar4fWhRU0uNlqrGaAVhjJpDscl0FTZDtPjfvem6IGy2abmmTrb/irtvU73WmvUFncgzzflGwR86BigQXuOoggAAAABJRU5ErkJggg==">
 <link rel="icon" type="image/png" sizes="32x32" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAA7ElEQVR4nGNkQANSVjH/0cWoCZ4dW8KIzGeip+XY7GDCJUEMOJd2BIUmxxFMlFqOi0+sIxiJtfzp0cV3kfkvFyoqMzAwMIjH37+LzIbJS1vHKhNjLgu6ADafIBtMLHh6dDHcYejAaJYNnM2ETQExAN1R5DiSIgcgW0qu5RQ7gBqAKAfgiktq6CE6F9AKDHgUYGTDp0cXb6W1pdLWsd4w9oCHwIA7YDQRDrgD6JILkFM9OhjwEBhwBwx4LhhNAwPugAFPAwMeAgPvAPS+Gj3Bs2NLGJlgjIGwnIEBKQro6Qhku5hwSdDDcgYGBgYAyJtfvvyc8t4AAAAASUVORK5CYII=">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>35地区 名簿管理システム</title>
+<title>35支区 名簿管理システム</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&display=swap');
@@ -388,6 +388,125 @@
   .toast.err { background: var(--danger); }
   .toast.show { transform: translateX(-50%) translateY(0); }
 
+
+  /* ===== MODAL (編集) ===== */
+  .modal-overlay {
+    display: none;
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 200;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+  }
+  .modal-overlay.show { display: flex; }
+  .modal-box {
+    background: var(--surface);
+    border-radius: 14px;
+    padding: 24px 20px;
+    width: 100%;
+    max-width: 500px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.25);
+  }
+  .modal-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+  }
+  .modal-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 16px;
+  }
+  .btn-save {
+    flex: 1;
+    background: var(--primary);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 12px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: inherit;
+    transition: background 0.2s;
+  }
+  .btn-save:hover { background: var(--primary-light); }
+  .btn-cancel {
+    flex: 1;
+    background: var(--surface2);
+    color: var(--text-muted);
+    border: none;
+    border-radius: 8px;
+    padding: 12px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: inherit;
+  }
+  /* 編集・削除ボタン */
+  .btn-edit {
+    background: none;
+    border: 1.5px solid #93c5fd;
+    color: var(--primary-light);
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: inherit;
+    transition: background 0.15s;
+    white-space: nowrap;
+    margin-right: 4px;
+  }
+  .btn-edit:hover { background: #dbeafe; }
+  /* 備考 */
+  textarea {
+    width: 100%;
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 13px;
+    font-size: 0.92rem;
+    font-family: inherit;
+    color: var(--text);
+    background: var(--bg);
+    resize: vertical;
+    min-height: 72px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  textarea:focus {
+    outline: none;
+    border-color: var(--primary-light);
+    box-shadow: 0 0 0 3px rgba(37,99,168,0.12);
+    background: #fff;
+  }
+  .biko-cell {
+    max-width: 160px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+  }
+  /* 重複警告 */
+  .dup-warn {
+    display: none;
+    color: #b94040;
+    font-size: 0.78rem;
+    font-weight: 600;
+    margin-top: 5px;
+    padding: 6px 10px;
+    background: #fee2e2;
+    border-radius: 6px;
+  }
+  .dup-warn.show { display: block; }
+
   @media (max-width: 480px) {
     .tab-btn { padding: 10px 14px; font-size: 0.8rem; }
     .main-wrap { padding: 14px 10px 60px; }
@@ -423,7 +542,8 @@
 
       <div class="form-group">
         <label class="field-label">氏名（フルネーム）<span class="required">必須</span></label>
-        <input type="text" id="f-name" placeholder="例：山田 太郎">
+        <input type="text" id="f-name" placeholder="例：山田 太郎" oninput="checkDupInput(this)">
+        <div class="dup-warn" id="input-dup-warn">⚠️ 同じ氏名がすでに登録されています</div>
       </div>
 
       <div class="divider"></div>
@@ -465,6 +585,11 @@
           <div class="radio-btn"><input type="radio" name="payment" id="pT" value="振込"><label for="pT">振込</label></div>
           <div class="radio-btn"><input type="radio" name="payment" id="pC" value="現金"><label for="pC">現金</label></div>
         </div>
+      </div>
+
+      <div class="form-group">
+        <label class="field-label">備考</label>
+        <textarea id="f-biko" placeholder="自由記入（任意）"></textarea>
       </div>
 
       <button class="btn-submit" id="btn-add" onclick="addRecord()">＋ 登録する</button>
@@ -545,11 +670,12 @@
               <th>参加日</th>
               <th>回次</th>
               <th>入金</th>
+              <th>備考</th>
               <th></th>
             </tr>
           </thead>
           <tbody id="meibo-body">
-            <tr><td colspan="9"><div class="empty-state"><div class="icon">⏳</div>読み込み中...</div></td></tr>
+            <tr><td colspan="10"><div class="empty-state"><div class="icon">⏳</div>読み込み中...</div></td></tr>
           </tbody>
         </table>
       </div>
@@ -558,12 +684,76 @@
   </div>
 </div>
 
+
+<!-- ===== 編集モーダル ===== -->
+<div class="modal-overlay" id="edit-modal">
+  <div class="modal-box">
+    <div class="modal-title">✏️ データを編集</div>
+    <input type="hidden" id="edit-id">
+
+    <div class="form-group">
+      <label class="field-label">班名<span class="required">必須</span></label>
+      <input type="text" id="edit-han" placeholder="例：第1班">
+    </div>
+    <div class="form-group">
+      <label class="field-label">氏名（フルネーム）<span class="required">必須</span></label>
+      <input type="text" id="edit-name" placeholder="例：山田 太郎">
+      <div class="dup-warn" id="edit-dup-warn">⚠️ 同じ氏名がすでに登録されています</div>
+    </div>
+    <div class="divider"></div>
+    <div class="form-group">
+      <label class="field-label">コース<span class="required">必須</span></label>
+      <div class="radio-group">
+        <div class="radio-btn"><input type="radio" name="e-course" id="ecA" value="A"><label for="ecA">A</label></div>
+        <div class="radio-btn"><input type="radio" name="e-course" id="ecB" value="B"><label for="ecB">B</label></div>
+        <div class="radio-btn"><input type="radio" name="e-course" id="ecC" value="C"><label for="ecC">C</label></div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="field-label">御開扉<span class="required">必須</span></label>
+      <div class="radio-group">
+        <div class="radio-btn"><input type="radio" name="e-kaisou" id="ekY" value="あり" onchange="onEditKaisouChange()"><label for="ekY">あり</label></div>
+        <div class="radio-btn"><input type="radio" name="e-kaisou" id="ekN" value="なし" onchange="onEditKaisouChange()"><label for="ekN">なし</label></div>
+      </div>
+      <div class="sub-field" id="edit-sub-day">
+        <div class="sub-label">▸ 参加日</div>
+        <div class="radio-group">
+          <div class="radio-btn"><input type="radio" name="e-day" id="edSat" value="土曜日" onchange="onEditDayChange()"><label for="edSat">土曜日</label></div>
+          <div class="radio-btn"><input type="radio" name="e-day" id="edSun" value="日曜日" onchange="onEditDayChange()"><label for="edSun">日曜日</label></div>
+        </div>
+        <div class="sub-field" id="edit-sub-time">
+          <div class="sub-label">▸ 回次</div>
+          <div class="radio-group">
+            <div class="radio-btn"><input type="radio" name="e-time" id="et1" value="1回目"><label for="et1">1回目</label></div>
+            <div class="radio-btn"><input type="radio" name="e-time" id="et2" value="2回目"><label for="et2">2回目</label></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="field-label">入金<span class="required">必須</span></label>
+      <div class="radio-group">
+        <div class="radio-btn"><input type="radio" name="e-payment" id="epT" value="振込"><label for="epT">振込</label></div>
+        <div class="radio-btn"><input type="radio" name="e-payment" id="epC" value="現金"><label for="epC">現金</label></div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="field-label">備考</label>
+      <textarea id="edit-biko" placeholder="自由記入（任意）"></textarea>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeEditModal()">キャンセル</button>
+      <button class="btn-save" onclick="saveEdit()">💾 保存する</button>
+    </div>
+  </div>
+</div>
+
 <div class="toast" id="toast"></div>
 
 <!-- Firebase -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getDatabase, ref, push, remove, onValue } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+import { getDatabase, ref, push, remove, onValue, update } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDbcQCC5eaah5fssJd076qur4PtWkbbdNw",
@@ -596,6 +786,12 @@ onValue(ref(db, 'meibo'), (snapshot) => {
   updateHanFilter();
 });
 
+
+// 重複チェック（編集時は自分以外で確認）
+window.isDuplicate = function(name, excludeId = null) {
+  return (window._records || []).some(r => r.name === name && r.id !== excludeId);
+};
+
 // 追加
 window.addRecord = async function() {
   const han     = document.getElementById('f-han').value.trim();
@@ -605,9 +801,11 @@ window.addRecord = async function() {
   const day     = kaisou === 'あり' ? (document.querySelector('input[name="day"]:checked')?.value || '') : '';
   const time    = (kaisou === 'あり' && day === '日曜日') ? (document.querySelector('input[name="time"]:checked')?.value || '') : '';
   const payment = document.querySelector('input[name="payment"]:checked')?.value || '';
+  const biko    = document.getElementById('f-biko').value.trim();
 
   if (!han)    { showToast('❌ 班名を入力してください', true); return; }
   if (!name)   { showToast('❌ 氏名を入力してください', true); return; }
+  if (window.isDuplicate(name)) { showToast('⚠️ 「' + name + '」はすでに登録されています', true); return; }
   if (!course) { showToast('❌ コースを選択してください', true); return; }
   if (!kaisou) { showToast('❌ 御開扉を選択してください', true); return; }
   if (kaisou === 'あり' && !day)  { showToast('❌ 参加日を選択してください', true); return; }
@@ -619,10 +817,11 @@ window.addRecord = async function() {
   btn.textContent = '登録中...';
 
   try {
-    await push(ref(db, 'meibo'), { han, name, course, kaisou, day, time, payment, createdAt: Date.now() });
+    await push(ref(db, 'meibo'), { han, name, course, kaisou, day, time, payment, biko, createdAt: Date.now() });
     showToast('✅ 登録しました！');
     document.getElementById('f-han').value = '';
     document.getElementById('f-name').value = '';
+    document.getElementById('f-biko').value = '';
     document.querySelectorAll('input[type="radio"]').forEach(r => r.checked = false);
     document.getElementById('sub-day').classList.remove('show');
     document.getElementById('sub-time').classList.remove('show');
@@ -644,6 +843,36 @@ window.deleteRecord = async function(id) {
     showToast('❌ 削除エラー: ' + e.message, true);
   }
 };
+
+// 編集保存
+window.saveEdit = async function() {
+  const id      = document.getElementById('edit-id').value;
+  const han     = document.getElementById('edit-han').value.trim();
+  const name    = document.getElementById('edit-name').value.trim();
+  const course  = document.querySelector('input[name="e-course"]:checked')?.value || '';
+  const kaisou  = document.querySelector('input[name="e-kaisou"]:checked')?.value || '';
+  const day     = kaisou === 'あり' ? (document.querySelector('input[name="e-day"]:checked')?.value || '') : '';
+  const time    = (kaisou === 'あり' && day === '日曜日') ? (document.querySelector('input[name="e-time"]:checked')?.value || '') : '';
+  const payment = document.querySelector('input[name="e-payment"]:checked')?.value || '';
+  const biko    = document.getElementById('edit-biko').value.trim();
+
+  if (!han)    { showToast('❌ 班名を入力してください', true); return; }
+  if (!name)   { showToast('❌ 氏名を入力してください', true); return; }
+  if (window.isDuplicate(name, id)) { showToast('⚠️ 「' + name + '」はすでに登録されています', true); return; }
+  if (!course) { showToast('❌ コースを選択してください', true); return; }
+  if (!kaisou) { showToast('❌ 御開扉を選択してください', true); return; }
+  if (kaisou === 'あり' && !day)  { showToast('❌ 参加日を選択してください', true); return; }
+  if (kaisou === 'あり' && day === '日曜日' && !time) { showToast('❌ 回次を選択してください', true); return; }
+  if (!payment){ showToast('❌ 入金を選択してください', true); return; }
+
+  try {
+    await update(ref(db, 'meibo/' + id), { han, name, course, kaisou, day, time, payment, biko });
+    closeEditModal();
+    showToast('✅ 更新しました！');
+  } catch(e) {
+    showToast('❌ 更新エラー: ' + e.message, true);
+  }
+};
 </script>
 
 <script>
@@ -654,6 +883,63 @@ function switchTab(name, btn) {
   document.getElementById('page-' + name).classList.add('active');
   btn.classList.add('active');
 }
+
+// ===== 編集モーダル =====
+function openEditModal(id) {
+  const r = (window._records || []).find(rec => rec.id === id);
+  if (!r) return;
+  document.getElementById('edit-id').value   = id;
+  document.getElementById('edit-han').value  = r.han  || '';
+  document.getElementById('edit-name').value = r.name || '';
+  document.getElementById('edit-biko').value = r.biko || '';
+  document.getElementById('edit-dup-warn').classList.remove('show');
+
+  // ラジオ初期化
+  document.querySelectorAll('input[name="e-course"], input[name="e-kaisou"], input[name="e-day"], input[name="e-time"], input[name="e-payment"]').forEach(el => el.checked = false);
+
+  const setRadio = (name, val) => {
+    const el = document.querySelector(`input[name="${name}"][value="${val}"]`);
+    if (el) el.checked = true;
+  };
+  setRadio('e-course',  r.course  || '');
+  setRadio('e-kaisou',  r.kaisou  || '');
+  setRadio('e-day',     r.day     || '');
+  setRadio('e-time',    r.time    || '');
+  setRadio('e-payment', r.payment || '');
+
+  document.getElementById('edit-sub-day').classList.toggle('show', r.kaisou === 'あり');
+  document.getElementById('edit-sub-time').classList.toggle('show', r.kaisou === 'あり' && r.day === '日曜日');
+
+  document.getElementById('edit-modal').classList.add('show');
+}
+
+function closeEditModal() {
+  document.getElementById('edit-modal').classList.remove('show');
+}
+
+function onEditKaisouChange() {
+  const val = document.querySelector('input[name="e-kaisou"]:checked')?.value;
+  document.getElementById('edit-sub-day').classList.toggle('show', val === 'あり');
+  if (val !== 'あり') {
+    document.querySelectorAll('input[name="e-day"], input[name="e-time"]').forEach(r => r.checked = false);
+    document.getElementById('edit-sub-time').classList.remove('show');
+  }
+}
+
+function onEditDayChange() {
+  const val = document.querySelector('input[name="e-day"]:checked')?.value;
+  document.getElementById('edit-sub-time').classList.toggle('show', val === '日曜日');
+  if (val !== '日曜日') document.querySelectorAll('input[name="e-time"]').forEach(r => r.checked = false);
+}
+
+// 編集モーダル内の重複チェック（リアルタイム）
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('edit-name').addEventListener('input', function() {
+    const id = document.getElementById('edit-id').value;
+    const warn = document.getElementById('edit-dup-warn');
+    warn.classList.toggle('show', window.isDuplicate && window.isDuplicate(this.value.trim(), id));
+  });
+});
 
 // ===== フォーム制御 =====
 function onKaisouChange() {
@@ -669,6 +955,11 @@ function onDayChange() {
   const val = document.querySelector('input[name="day"]:checked')?.value;
   document.getElementById('sub-time').classList.toggle('show', val === '日曜日');
   if (val !== '日曜日') document.querySelectorAll('input[name="time"]').forEach(r => r.checked = false);
+}
+
+function checkDupInput(el) {
+  const warn = document.getElementById('input-dup-warn');
+  if (warn) warn.classList.toggle('show', window.isDuplicate && window.isDuplicate(el.value.trim()));
 }
 
 // ===== フィルター =====
@@ -726,7 +1017,7 @@ function renderTable() {
 
   const tbody = document.getElementById('meibo-body');
   if (data.length === 0) {
-    tbody.innerHTML = '<tr><td colspan="9"><div class="empty-state"><div class="icon">📭</div>データがありません</div></td></tr>';
+    tbody.innerHTML = '<tr><td colspan="10"><div class="empty-state"><div class="icon">📭</div>データがありません</div></td></tr>';
     return;
   }
 
@@ -740,7 +1031,11 @@ function renderTable() {
       <td>${r.day ? `<span class="badge ${r.day === '土曜日' ? 'sat' : 'sun'}">${esc(r.day)}</span>` : '<span style="color:var(--text-muted)">—</span>'}</td>
       <td>${r.time ? `<span class="badge ${r.time === '1回目' ? 't1' : 't2'}">${esc(r.time)}</span>` : '<span style="color:var(--text-muted)">—</span>'}</td>
       <td>${r.payment ? `<span class="badge ${r.payment === '振込' ? 'furikomi' : 'genkin'}">${esc(r.payment)}</span>` : '<span style="color:var(--text-muted)">—</span>'}</td>
-      <td><button class="btn-del" onclick="deleteRecord('${r.id}')">削除</button></td>
+      <td class="biko-cell" title="${esc(r.biko)}">${esc(r.biko) || '<span style="color:var(--text-muted)">—</span>'}</td>
+      <td style="white-space:nowrap">
+        <button class="btn-edit" onclick="openEditModal('${r.id}')">編集</button>
+        <button class="btn-del" onclick="deleteRecord('${r.id}')">削除</button>
+      </td>
     </tr>
   `).join('');
 }
@@ -835,7 +1130,7 @@ function exportPDF() {
   <div class="meta">出力日：${now}　合計 ${data.length}名</div>
   ${summaryHtml}
   <div class="total">▼ 名簿（班名順）</div>
-  <table class="meibo"><thead><tr><th>#</th><th>班名</th><th>氏名</th><th>コース</th><th>御開扉</th><th>参加日</th><th>回次</th><th>入金</th></tr></thead>
+  <table class="meibo"><thead><tr><th>#</th><th>班名</th><th>氏名</th><th>コース</th><th>御開扉</th><th>参加日</th><th>回次</th><th>入金</th><th>備考</th></tr></thead>
   <tbody>${rows}</tbody></table>
   <script>window.onload=()=>window.print();<\/script>
   </body></html>`;
@@ -848,10 +1143,10 @@ function exportPDF() {
 // ===== Excel出力 =====
 function exportExcel() {
   const data = getFilteredRecords();
-  const wsData = [['#','班名','氏名','コース','御開扉','参加日','回次','入金']];
-  data.forEach((r, i) => wsData.push([i+1, r.han, r.name, r.course, r.kaisou, r.day||'', r.time||'', r.payment||'']));
+  const wsData = [['#','班名','氏名','コース','御開扉','参加日','回次','入金','備考']];
+  data.forEach((r, i) => wsData.push([i+1, r.han, r.name, r.course, r.kaisou, r.day||'', r.time||'', r.payment||'', r.biko||'']));
   const ws = XLSX.utils.aoa_to_sheet(wsData);
-  ws['!cols'] = [{wch:4},{wch:12},{wch:16},{wch:8},{wch:8},{wch:10},{wch:8},{wch:8}];
+  ws['!cols'] = [{wch:4},{wch:12},{wch:16},{wch:8},{wch:8},{wch:10},{wch:8},{wch:8},{wch:20}];
   const wb = XLSX.utils.book_new();
   XLSX.utils.book_append_sheet(wb, ws, '名簿');
   XLSX.writeFile(wb, `名簿_${new Date().toISOString().slice(0,10)}.xlsx`);
