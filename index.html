@@ -564,7 +564,7 @@
 
       <div class="form-group">
         <label class="field-label">班名<span class="required">必須</span></label>
-        <input type="text" id="f-han" placeholder="例：〇〇班 「班」まで記入" oninput="autoFillKanji(this.value, 'f-kanji')">
+        <input type="text" id="f-han" placeholder="例：〇〇班 ※「班」まで記入" oninput="autoFillKanji(this.value, 'f-kanji')">
       </div>
 
       <div class="form-group">
@@ -764,7 +764,7 @@
 
     <div class="form-group">
       <label class="field-label">班名<span class="required">必須</span></label>
-      <input type="text" id="edit-han" placeholder="例：〇〇班 「班」まで記入" oninput="autoFillKanji(this.value, 'edit-kanji', document.getElementById('edit-id').value)">
+      <input type="text" id="edit-han" placeholder="例：〇〇班 ※「班」まで記入" oninput="autoFillKanji(this.value, 'edit-kanji', document.getElementById('edit-id').value)">
     </div>
     <div class="form-group">
       <label class="field-label">氏名（フルネーム）<span class="required">必須</span></label>
@@ -1286,20 +1286,28 @@ function renderTable() {
 // ===== PDF出力 =====
 function doPDFExport(sortBy) {
   document.getElementById('pdf-sort-modal').classList.remove('show');
+  const KOP = {'小川幹事':0,'布施幹事':1,'千野（久）幹事':2};
   const base = getFilteredRecords().slice();
   const data = sortBy === 'name'
     ? base.sort((a, b) => {
-        const ak = a.kana || '';
-        const bk = b.kana || '';
-        // ふりがなあり同士 → 五十音順
+        // なまえ順：担当幹事 → ふりがな/氏名
+        const kd = (KOP[a.kanji]??9) - (KOP[b.kanji]??9);
+        if (kd !== 0) return kd;
+        const ak = a.kana || '', bk = b.kana || '';
         if (ak && bk) return ak.localeCompare(bk, 'ja');
-        // ふりがなあり → 先
         if (ak && !bk) return -1;
         if (!ak && bk) return 1;
-        // ふりがな両方なし → 氏名で比較
         return (a.name || '').localeCompare(b.name || '', 'ja');
       })
-    : base.sort((a, b) => (a.han || '').localeCompare(b.han || '', 'ja') || (a.name || '').localeCompare(b.name || '', 'ja'));
+    : base.sort((a, b) => {
+        // 班名順：担当幹事 → 班名 → 班長優先 → 氏名
+        const kd = (KOP[a.kanji]??9) - (KOP[b.kanji]??9);
+        if (kd !== 0) return kd;
+        const hd = (a.han || '').localeCompare(b.han || '', 'ja');
+        if (hd !== 0) return hd;
+        if (!!b.banchou !== !!a.banchou) return a.banchou ? -1 : 1;
+        return (a.name || '').localeCompare(b.name || '', 'ja');
+      });
   const sortLabel = sortBy === 'name' ? 'なまえ順' : '班名順';
   const now = new Date().toLocaleDateString('ja-JP');
 
