@@ -564,7 +564,7 @@
 
       <div class="form-group">
         <label class="field-label">班名<span class="required">必須</span></label>
-        <input type="text" id="f-han" placeholder="例：〇〇班 ※「班」まで記入" oninput="autoFillKanji(this.value, 'f-kanji')">
+        <input type="text" id="f-han" placeholder="例：〇〇班 「班」まで記入" oninput="autoFillKanji(this.value, 'f-kanji')">
       </div>
 
       <div class="form-group">
@@ -764,7 +764,7 @@
 
     <div class="form-group">
       <label class="field-label">班名<span class="required">必須</span></label>
-      <input type="text" id="edit-han" placeholder="例：〇〇班 ※「班」まで記入" oninput="autoFillKanji(this.value, 'edit-kanji', document.getElementById('edit-id').value)">
+      <input type="text" id="edit-han" placeholder="例：〇〇班 「班」まで記入" oninput="autoFillKanji(this.value, 'edit-kanji', document.getElementById('edit-id').value)">
     </div>
     <div class="form-group">
       <label class="field-label">氏名（フルネーム）<span class="required">必須</span></label>
@@ -1358,7 +1358,7 @@ function doPDFExport(sortBy) {
   // ===== 名簿テーブル =====
   const rows = data.map((r, i) => `
     <tr>
-      <td>${i+1}</td><td>${r.kanji||'—'}</td><td>${r.banchou?'⭐班長':''}</td><td>${r.han}</td><td>${r.name}</td><td>${r.course}</td>
+      <td>${i+1}</td><td>${r.kanji||'—'}</td><td>${r.han}</td><td>${r.name}</td><td>${r.course}</td>
       <td>${r.kaisou}</td><td>${r.day||'—'}</td><td>${r.time||'—'}</td><td>${r.payment||'—'}</td>
     </tr>`).join('');
 
@@ -1387,7 +1387,7 @@ function doPDFExport(sortBy) {
   <div class="meta">出力日：${now}　合計 ${data.length}名</div>
   ${summaryHtml}
   <div class="total">▼ 名簿（${sortLabel}）</div>
-  <table class="meibo"><thead><tr><th>#</th><th>担当幹事</th><th>班長</th><th>班名</th><th>氏名</th><th>コース</th><th>御開扉</th><th>参加日</th><th>回次</th><th>入金</th><th>備考</th></tr></thead>
+  <table class="meibo"><thead><tr><th>#</th><th>担当幹事</th><th>班名</th><th>氏名</th><th>コース</th><th>御開扉</th><th>参加日</th><th>回次</th><th>入金</th><th>備考</th></tr></thead>
   <tbody>${rows}</tbody></table>
   <script>window.onload=()=>window.print();<\/script>
   </body></html>`;
