@@ -507,6 +507,33 @@
   }
   .dup-warn.show { display: block; }
 
+
+  .badge.kanji0 { background:#dbeafe; color:#1d4ed8; }
+  .badge.kanji1 { background:#dcfce7; color:#15803d; }
+  .badge.kanji2 { background:#fef9c3; color:#a16207; }
+  .banchou-mark {
+    display:inline-flex;align-items:center;gap:3px;
+    background:#fde68a;color:#92400e;
+    font-size:0.68rem;font-weight:700;
+    padding:2px 7px;border-radius:10px;
+    white-space:nowrap;
+  }
+  .banchou-check-wrap {
+    display:flex;align-items:center;gap:10px;
+    padding:10px 14px;
+    background:var(--surface2);border-radius:8px;
+    border:1.5px solid var(--border);cursor:pointer;
+  }
+  .banchou-check-wrap input[type="checkbox"] {
+    width:20px;height:20px;cursor:pointer;accent-color:var(--accent);
+  }
+  .banchou-check-wrap .bc-label {
+    font-size:0.9rem;font-weight:700;color:var(--text);
+  }
+  .banchou-check-wrap .bc-sub {
+    font-size:0.74rem;color:var(--text-muted);margin-left:auto;
+  }
+
   @media (max-width: 480px) {
     .tab-btn { padding: 10px 14px; font-size: 0.8rem; }
     .main-wrap { padding: 14px 10px 60px; }
@@ -537,7 +564,7 @@
 
       <div class="form-group">
         <label class="field-label">班名<span class="required">必須</span></label>
-        <input type="text" id="f-han" placeholder="例：〇〇班 ※「班」まで記入">
+        <input type="text" id="f-han" placeholder="例：〇〇班 ※「班」まで記入" oninput="autoFillKanji(this.value, 'f-kanji')">
       </div>
 
       <div class="form-group">
@@ -590,6 +617,25 @@
           <div class="radio-btn"><input type="radio" name="payment" id="pT" value="振込"><label for="pT">振込</label></div>
           <div class="radio-btn"><input type="radio" name="payment" id="pC" value="現金"><label for="pC">現金</label></div>
         </div>
+      </div>
+
+      <div class="form-group">
+        <label class="field-label">担当幹事<span class="required">必須</span></label>
+        <select id="f-kanji" style="width:100%;border:1.5px solid var(--border);border-radius:8px;padding:11px 13px;font-size:1rem;font-family:inherit;color:var(--text);background:var(--bg);">
+          <option value="">選択してください</option>
+          <option value="小川幹事">小川幹事</option>
+          <option value="布施幹事">布施幹事</option>
+          <option value="千野（久）幹事">千野（久）幹事</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label class="field-label">班長マーカー <span style="color:var(--text-muted);font-size:0.7rem;margin-left:4px;">任意</span></label>
+        <label class="banchou-check-wrap">
+          <input type="checkbox" id="f-banchou">
+          <span class="bc-label">⭐ 班長</span>
+          <span class="bc-sub">ONにすると班長として表示されます</span>
+        </label>
       </div>
 
       <div class="form-group">
@@ -651,6 +697,20 @@
             <span class="chip" data-filter="payment" data-val="現金" onclick="toggleChip(this)">現金</span>
           </div>
         </div>
+        <div class="filter-group">
+          <span class="flabel">担当幹事</span>
+          <div class="check-list">
+            <span class="chip" data-filter="kanji" data-val="小川幹事" onclick="toggleChip(this)">小川幹事</span>
+            <span class="chip" data-filter="kanji" data-val="布施幹事" onclick="toggleChip(this)">布施幹事</span>
+            <span class="chip" data-filter="kanji" data-val="千野（久）幹事" onclick="toggleChip(this)">千野（久）幹事</span>
+          </div>
+        </div>
+        <div class="filter-group">
+          <span class="flabel">班長</span>
+          <div class="check-list">
+            <span class="chip" data-filter-banchou="1" onclick="toggleBanchouChip(this)">⭐ 班長のみ</span>
+          </div>
+        </div>
       </div>
       <div class="filter-actions">
         <button class="btn-sm btn-reset" onclick="resetFilters()">リセット</button>
@@ -671,6 +731,8 @@
           <thead>
             <tr>
               <th>#</th>
+              <th>担当幹事</th>
+              <th>班長</th>
               <th>班名</th>
               <th>氏名</th>
               <th>ふりがな</th>
@@ -684,7 +746,7 @@
             </tr>
           </thead>
           <tbody id="meibo-body">
-            <tr><td colspan="11"><div class="empty-state"><div class="icon">⏳</div>読み込み中...</div></td></tr>
+            <tr><td colspan="13"><div class="empty-state"><div class="icon">⏳</div>読み込み中...</div></td></tr>
           </tbody>
         </table>
       </div>
@@ -702,7 +764,7 @@
 
     <div class="form-group">
       <label class="field-label">班名<span class="required">必須</span></label>
-      <input type="text" id="edit-han" placeholder="例：第1班">
+      <input type="text" id="edit-han" placeholder="例：〇〇班 ※「班」まで記入" oninput="autoFillKanji(this.value, 'edit-kanji', document.getElementById('edit-id').value)">
     </div>
     <div class="form-group">
       <label class="field-label">氏名（フルネーム）<span class="required">必須</span></label>
@@ -749,6 +811,23 @@
         <div class="radio-btn"><input type="radio" name="e-payment" id="epT" value="振込"><label for="epT">振込</label></div>
         <div class="radio-btn"><input type="radio" name="e-payment" id="epC" value="現金"><label for="epC">現金</label></div>
       </div>
+    </div>
+    <div class="form-group">
+      <label class="field-label">担当幹事<span class="required">必須</span></label>
+      <select id="edit-kanji" style="width:100%;border:1.5px solid var(--border);border-radius:8px;padding:10px 12px;font-size:0.95rem;font-family:inherit;color:var(--text);background:var(--bg);">
+        <option value="">選択してください</option>
+        <option value="小川幹事">小川幹事</option>
+        <option value="布施幹事">布施幹事</option>
+        <option value="千野（久）幹事">千野（久）幹事</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label class="field-label">班長マーカー <span style="color:var(--text-muted);font-size:0.7rem;margin-left:4px;">任意</span></label>
+      <label class="banchou-check-wrap">
+        <input type="checkbox" id="edit-banchou">
+        <span class="bc-label">⭐ 班長</span>
+        <span class="bc-sub">ONにすると班長として表示されます</span>
+      </label>
     </div>
     <div class="form-group">
       <label class="field-label">備考</label>
@@ -818,12 +897,26 @@
     </div>
 
     <!-- PDF形式の説明 -->
-    <div id="mail-info-pdf" style="display:none;font-size:0.76rem;color:var(--text-muted);background:#fef9c3;border-radius:7px;padding:9px 12px;margin-bottom:4px;line-height:1.7;border:1px solid #fde68a;">
-      📄 <strong style="color:#92400e;">PDF添付の手順：</strong><br>
-      ① 「PDFを作成する」ボタンを押す<br>
-      ② 印刷ダイアログで <strong>「PDFで保存」</strong> を選択して保存<br>
-      ③ 続けて「メールアプリを開く」ボタンを押す<br>
-      ④ 保存したPDFをメールに添付して送信
+    <div id="mail-info-pdf" style="display:none;font-size:0.82rem;color:var(--text);background:var(--surface2);border-radius:10px;padding:14px 16px;margin-bottom:12px;line-height:1.8;">
+      <div style="font-weight:700;color:var(--primary);margin-bottom:10px;">📋 PDF添付メールの送り方</div>
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <div style="display:flex;gap:10px;align-items:flex-start;">
+          <span style="background:var(--primary);color:#fff;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:0.72rem;font-weight:700;flex-shrink:0;margin-top:1px;">1</span>
+          <div>「<strong>① PDFを作成する</strong>」を押す<br><span style="color:var(--text-muted);font-size:0.76rem;">→ 印刷画面が開きます</span></div>
+        </div>
+        <div style="display:flex;gap:10px;align-items:flex-start;">
+          <span style="background:var(--primary);color:#fff;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:0.72rem;font-weight:700;flex-shrink:0;margin-top:1px;">2</span>
+          <div>印刷画面で <strong>「PDFで保存」</strong> を選んで保存<br><span style="color:var(--text-muted);font-size:0.76rem;">→ ファイルアプリ等に保存されます</span></div>
+        </div>
+        <div style="display:flex;gap:10px;align-items:flex-start;">
+          <span style="background:var(--primary);color:#fff;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:0.72rem;font-weight:700;flex-shrink:0;margin-top:1px;">3</span>
+          <div>「<strong>② メールアプリを開く</strong>」を押す<br><span style="color:var(--text-muted);font-size:0.76rem;">→ 宛先・件名・本文が自動入力されます</span></div>
+        </div>
+        <div style="display:flex;gap:10px;align-items:flex-start;">
+          <span style="background:var(--accent);color:#fff;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:0.72rem;font-weight:700;flex-shrink:0;margin-top:1px;">4</span>
+          <div>メールアプリで <strong>📎 添付ボタン</strong> を押して、手順2で保存したPDFを選んで送信<br><span style="color:var(--text-muted);font-size:0.76rem;">iPhoneの場合：本文長押し → 「添付ファイルを追加」</span></div>
+        </div>
+      </div>
     </div>
 
     <div class="modal-actions" id="mail-actions-text">
@@ -871,7 +964,15 @@ onValue(ref(db, 'meibo'), (snapshot) => {
     Object.entries(data).forEach(([id, val]) => {
       window._records.push({ id, ...val });
     });
-    window._records.sort((a, b) => (a.han || '').localeCompare(b.han || '', 'ja') || (a.createdAt || 0) - (b.createdAt || 0));
+    const KO = {'小川幹事':0,'布施幹事':1,'千野（久）幹事':2};
+    window._records.sort((a, b) => {
+      const kd = (KO[a.kanji]??9) - (KO[b.kanji]??9);
+      if (kd !== 0) return kd;
+      const hd = (a.han||'').localeCompare(b.han||'','ja');
+      if (hd !== 0) return hd;
+      if (!!b.banchou !== !!a.banchou) return a.banchou ? -1 : 1;
+      return (a.createdAt||0) - (b.createdAt||0);
+    });
   }
   renderTable();
   updateHanFilter();
@@ -894,6 +995,8 @@ window.addRecord = async function() {
   const payment = document.querySelector('input[name="payment"]:checked')?.value || '';
   const biko    = document.getElementById('f-biko').value.trim();
   const kana    = document.getElementById('f-kana').value.trim();
+  const kanji   = document.getElementById('f-kanji').value;
+  const banchou = document.getElementById('f-banchou').checked;
 
   if (!han)    { showToast('❌ 班名を入力してください', true); return; }
   if (!name)   { showToast('❌ 氏名を入力してください', true); return; }
@@ -903,18 +1006,21 @@ window.addRecord = async function() {
   if (kaisou === 'あり' && !day)  { showToast('❌ 参加日を選択してください', true); return; }
   if (kaisou === 'あり' && day === '日曜日' && !time) { showToast('❌ 回次を選択してください', true); return; }
   if (!payment){ showToast('❌ 入金を選択してください', true); return; }
+  if (!kanji)  { showToast('❌ 担当幹事を選択してください', true); return; }
 
   const btn = document.getElementById('btn-add');
   btn.disabled = true;
   btn.textContent = '登録中...';
 
   try {
-    await push(ref(db, 'meibo'), { han, name, kana, course, kaisou, day, time, payment, biko, createdAt: Date.now() });
+    await push(ref(db, 'meibo'), { han, name, kana, kanji, banchou, course, kaisou, day, time, payment, biko, createdAt: Date.now() });
     showToast('✅ 登録しました！');
     document.getElementById('f-han').value = '';
     document.getElementById('f-name').value = '';
     document.getElementById('f-kana').value = '';
     document.getElementById('f-biko').value = '';
+    document.getElementById('f-kanji').value = '';
+    document.getElementById('f-banchou').checked = false;
     document.querySelectorAll('input[type="radio"]').forEach(r => r.checked = false);
     document.getElementById('sub-day').classList.remove('show');
     document.getElementById('sub-time').classList.remove('show');
@@ -949,6 +1055,8 @@ window.saveEdit = async function() {
   const payment = document.querySelector('input[name="e-payment"]:checked')?.value || '';
   const biko    = document.getElementById('edit-biko').value.trim();
   const kana    = document.getElementById('edit-kana').value.trim();
+  const kanji   = document.getElementById('edit-kanji').value;
+  const banchou = document.getElementById('edit-banchou').checked;
 
   if (!han)    { showToast('❌ 班名を入力してください', true); return; }
   if (!name)   { showToast('❌ 氏名を入力してください', true); return; }
@@ -958,11 +1066,21 @@ window.saveEdit = async function() {
   if (kaisou === 'あり' && !day)  { showToast('❌ 参加日を選択してください', true); return; }
   if (kaisou === 'あり' && day === '日曜日' && !time) { showToast('❌ 回次を選択してください', true); return; }
   if (!payment){ showToast('❌ 入金を選択してください', true); return; }
+  if (!kanji)  { showToast('❌ 担当幹事を選択してください', true); return; }
 
   try {
-    await update(ref(db, 'meibo/' + id), { han, name, kana, course, kaisou, day, time, payment, biko });
+    await update(ref(db, 'meibo/' + id), { han, name, kana, kanji, banchou, course, kaisou, day, time, payment, biko });
+
+    // 同じ班名で担当幹事が未設定の人を一括更新
+    const targets = (window._records || []).filter(r => r.id !== id && r.han === han && !r.kanji);
+    if (targets.length > 0) {
+      await Promise.all(targets.map(r => update(ref(db, 'meibo/' + r.id), { kanji })));
+      showToast(`✅ 更新しました！（${targets.length}名に担当幹事を自動設定）`);
+    } else {
+      showToast('✅ 更新しました！');
+    }
+
     closeEditModal();
-    showToast('✅ 更新しました！');
   } catch(e) {
     showToast('❌ 更新エラー: ' + e.message, true);
   }
@@ -985,8 +1103,10 @@ function openEditModal(id) {
   document.getElementById('edit-id').value   = id;
   document.getElementById('edit-han').value  = r.han  || '';
   document.getElementById('edit-name').value = r.name || '';
-  document.getElementById('edit-biko').value = r.biko || '';
-  document.getElementById('edit-kana').value = r.kana || '';
+  document.getElementById('edit-biko').value   = r.biko    || '';
+  document.getElementById('edit-kana').value   = r.kana    || '';
+  document.getElementById('edit-kanji').value  = r.kanji   || '';
+  document.getElementById('edit-banchou').checked = !!r.banchou;
   document.getElementById('edit-dup-warn').classList.remove('show');
 
   // ラジオ初期化
@@ -1057,14 +1177,34 @@ function checkDupInput(el) {
   if (warn) warn.classList.toggle('show', window.isDuplicate && window.isDuplicate(el.value.trim()));
 }
 
+// 班名から担当幹事を自動セット
+function autoFillKanji(hanVal, selectId, excludeId = null) {
+  const han = hanVal.trim();
+  if (!han) return;
+  // 同じ班名で担当幹事が設定済みのレコードを探す
+  const match = (window._records || []).find(r =>
+    r.han === han && r.kanji && (!excludeId || r.id !== excludeId)
+  );
+  if (match) {
+    const sel = document.getElementById(selectId);
+    if (sel && !sel.value) sel.value = match.kanji;
+  }
+}
+
 // ===== フィルター =====
 function toggleChip(el) {
   el.classList.toggle('active');
   renderTable();
 }
 
+function toggleBanchouChip(el) {
+  el.classList.toggle('active');
+  renderTable();
+}
+
 function resetFilters() {
   document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+  document.querySelectorAll('[data-filter-banchou]').forEach(c => c.classList.remove('active'));
   const sel = document.getElementById('filter-han');
   if (sel) sel.value = '';
   renderTable();
@@ -1077,9 +1217,11 @@ function getFilteredRecords() {
     if (!f[key]) f[key] = [];
     f[key].push(c.dataset.val);
   });
-  const hanVal = document.getElementById('filter-han')?.value || '';
+  const hanVal     = document.getElementById('filter-han')?.value || '';
+  const banchouOnly = document.querySelector('[data-filter-banchou].active') !== null;
   return (window._records || []).filter(r => {
     if (hanVal && r.han !== hanVal) return false;
+    if (banchouOnly && !r.banchou) return false;
     for (const [key, vals] of Object.entries(f)) {
       if (!vals.includes(r[key] || '')) return false;
     }
@@ -1114,13 +1256,16 @@ function renderTable() {
 
   const tbody = document.getElementById('meibo-body');
   if (data.length === 0) {
-    tbody.innerHTML = '<tr><td colspan="11"><div class="empty-state"><div class="icon">📭</div>データがありません</div></td></tr>';
+    tbody.innerHTML = '<tr><td colspan="13"><div class="empty-state"><div class="icon">📭</div>データがありません</div></td></tr>';
     return;
   }
 
+  const KO2 = {'小川幹事':0,'布施幹事':1,'千野（久）幹事':2};
   tbody.innerHTML = data.map((r, i) => `
-    <tr>
+    <tr style="${r.banchou ? 'background:linear-gradient(90deg,#fffbeb 0%,transparent 100%)' : ''}">
       <td style="color:var(--text-muted);font-size:0.73rem">${i + 1}</td>
+      <td style="white-space:nowrap">${r.kanji ? `<span class="badge kanji${KO2[r.kanji]??''}">${esc(r.kanji)}</span>` : '<span style="color:var(--text-muted)">—</span>'}</td>
+      <td style="white-space:nowrap">${r.banchou ? '<span class="banchou-mark">⭐ 班長</span>' : '<span style="color:var(--text-muted)">—</span>'}</td>
       <td style="white-space:nowrap">${esc(r.han)}</td>
       <td style="white-space:nowrap"><strong>${esc(r.name)}</strong></td>
       <td style="white-space:nowrap;color:var(--text-muted);font-size:0.78rem">${esc(r.kana) || '—'}</td>
@@ -1213,7 +1358,7 @@ function doPDFExport(sortBy) {
   // ===== 名簿テーブル =====
   const rows = data.map((r, i) => `
     <tr>
-      <td>${i+1}</td><td>${r.han}</td><td>${r.name}</td><td>${r.course}</td>
+      <td>${i+1}</td><td>${r.kanji||'—'}</td><td>${r.banchou?'⭐班長':''}</td><td>${r.han}</td><td>${r.name}</td><td>${r.course}</td>
       <td>${r.kaisou}</td><td>${r.day||'—'}</td><td>${r.time||'—'}</td><td>${r.payment||'—'}</td>
     </tr>`).join('');
 
@@ -1242,7 +1387,7 @@ function doPDFExport(sortBy) {
   <div class="meta">出力日：${now}　合計 ${data.length}名</div>
   ${summaryHtml}
   <div class="total">▼ 名簿（${sortLabel}）</div>
-  <table class="meibo"><thead><tr><th>#</th><th>班名</th><th>氏名</th><th>コース</th><th>御開扉</th><th>参加日</th><th>回次</th><th>入金</th><th>備考</th></tr></thead>
+  <table class="meibo"><thead><tr><th>#</th><th>担当幹事</th><th>班長</th><th>班名</th><th>氏名</th><th>コース</th><th>御開扉</th><th>参加日</th><th>回次</th><th>入金</th><th>備考</th></tr></thead>
   <tbody>${rows}</tbody></table>
   <script>window.onload=()=>window.print();<\/script>
   </body></html>`;
@@ -1255,10 +1400,10 @@ function doPDFExport(sortBy) {
 // ===== Excel出力 =====
 function exportExcel() {
   const data = getFilteredRecords();
-  const wsData = [['#','班名','氏名','ふりがな','コース','御開扉','参加日','回次','入金','備考']];
-  data.forEach((r, i) => wsData.push([i+1, r.han, r.name, r.kana||'', r.course, r.kaisou, r.day||'', r.time||'', r.payment||'', r.biko||'']));
+  const wsData = [['#','担当幹事','班長','班名','氏名','ふりがな','コース','御開扉','参加日','回次','入金','備考']];
+  data.forEach((r, i) => wsData.push([i+1, r.kanji||'', r.banchou?'班長':'', r.han, r.name, r.kana||'', r.course, r.kaisou, r.day||'', r.time||'', r.payment||'', r.biko||'']));
   const ws = XLSX.utils.aoa_to_sheet(wsData);
-  ws['!cols'] = [{wch:4},{wch:12},{wch:16},{wch:16},{wch:8},{wch:8},{wch:10},{wch:8},{wch:8},{wch:20}];
+  ws['!cols'] = [{wch:4},{wch:14},{wch:6},{wch:12},{wch:16},{wch:16},{wch:8},{wch:8},{wch:10},{wch:8},{wch:8},{wch:20}];
   const wb = XLSX.utils.book_new();
   XLSX.utils.book_append_sheet(wb, ws, '名簿');
   XLSX.writeFile(wb, `名簿_${new Date().toISOString().slice(0,10)}.xlsx`);
@@ -1280,16 +1425,26 @@ function switchMailTab(tab) {
 // ===== メール共通：データ取得・ソート =====
 function getMailData() {
   const sortBy = document.querySelector('input[name="mail-sort"]:checked')?.value || 'han';
+  const KOM = {'小川幹事':0,'布施幹事':1,'千野（久）幹事':2};
   const base = getFilteredRecords().slice();
   return sortBy === 'name'
     ? base.sort((a, b) => {
+        const kd = (KOM[a.kanji]??9) - (KOM[b.kanji]??9);
+        if (kd !== 0) return kd;
         const ak = a.kana || '', bk = b.kana || '';
         if (ak && bk) return ak.localeCompare(bk, 'ja');
         if (ak && !bk) return -1;
         if (!ak && bk) return 1;
         return (a.name || '').localeCompare(b.name || '', 'ja');
       })
-    : base.sort((a, b) => (a.han || '').localeCompare(b.han || '', 'ja') || (a.name || '').localeCompare(b.name || '', 'ja'));
+    : base.sort((a, b) => {
+        const kd = (KOM[a.kanji]??9) - (KOM[b.kanji]??9);
+        if (kd !== 0) return kd;
+        const hd = (a.han||'').localeCompare(b.han||'','ja');
+        if (hd !== 0) return hd;
+        if (!!b.banchou !== !!a.banchou) return a.banchou ? -1 : 1;
+        return (a.name||'').localeCompare(b.name||'','ja');
+      });
 }
 
 // ===== テキスト形式でメール作成 =====
