@@ -565,7 +565,7 @@
 
       <div class="form-group">
         <label class="field-label">班名<span class="required">必須</span></label>
-        <input type="text" id="f-han" placeholder="例：〇〇班 ※「班」まで記入" oninput="autoFillKanji(this.value, 'f-kanji')">
+        <input type="text" id="f-han" placeholder="例：第1班" oninput="autoFillKanji(this.value, 'f-kanji')">
       </div>
 
       <div class="form-group">
@@ -637,6 +637,15 @@
           <input type="checkbox" id="f-banchou">
           <span class="bc-label">⭐ 班長</span>
           <span class="bc-sub">ONにすると班長として表示されます</span>
+        </label>
+      </div>
+
+      <div class="form-group">
+        <label class="field-label">統監部未入力 <span style="color:var(--text-muted);font-size:0.7rem;margin-left:4px;">任意</span></label>
+        <label class="banchou-check-wrap">
+          <input type="checkbox" id="f-tokan">
+          <span class="bc-label">📋 統監部未入力</span>
+          <span class="bc-sub">ONにすると未入力として表示されます</span>
         </label>
       </div>
 
@@ -714,6 +723,12 @@
             <span class="chip" data-filter-banchou="1" onclick="toggleBanchouChip(this)">⭐ 班長のみ</span>
           </div>
         </div>
+        <div class="filter-group">
+          <span class="flabel">統監部未入力</span>
+          <div class="check-list">
+            <span class="chip" data-filter-tokan="1" onclick="toggleTokanChip(this)">📋 未入力のみ</span>
+          </div>
+        </div>
       </div>
       <div class="filter-actions">
         <button class="btn-sm btn-reset" onclick="resetFilters()">リセット</button>
@@ -736,6 +751,7 @@
               <th>#</th>
               <th>担当幹事</th>
               <th>班長</th>
+              <th>統監部</th>
               <th>班名</th>
               <th>氏名</th>
               <th>ふりがな</th>
@@ -749,7 +765,7 @@
             </tr>
           </thead>
           <tbody id="meibo-body">
-            <tr><td colspan="13"><div class="empty-state"><div class="icon">⏳</div>読み込み中...</div></td></tr>
+            <tr><td colspan="14"><div class="empty-state"><div class="icon">⏳</div>読み込み中...</div></td></tr>
           </tbody>
         </table>
       </div>
@@ -767,7 +783,7 @@
 
     <div class="form-group">
       <label class="field-label">班名<span class="required">必須</span></label>
-      <input type="text" id="edit-han" placeholder="例：〇〇班 ※「班」まで記入" oninput="autoFillKanji(this.value, 'edit-kanji', document.getElementById('edit-id').value)">
+      <input type="text" id="edit-han" placeholder="例：第1班" oninput="autoFillKanji(this.value, 'edit-kanji', document.getElementById('edit-id').value)">
     </div>
     <div class="form-group">
       <label class="field-label">氏名（フルネーム）<span class="required">必須</span></label>
@@ -831,6 +847,14 @@
         <input type="checkbox" id="edit-banchou">
         <span class="bc-label">⭐ 班長</span>
         <span class="bc-sub">ONにすると班長として表示されます</span>
+      </label>
+    </div>
+    <div class="form-group">
+      <label class="field-label">統監部未入力 <span style="color:var(--text-muted);font-size:0.7rem;margin-left:4px;">任意</span></label>
+      <label class="banchou-check-wrap">
+        <input type="checkbox" id="edit-tokan">
+        <span class="bc-label">📋 統監部未入力</span>
+        <span class="bc-sub">ONにすると未入力として表示されます</span>
       </label>
     </div>
     <div class="form-group">
@@ -1032,6 +1056,7 @@ window.addRecord = async function() {
   const kana    = document.getElementById('f-kana').value.trim();
   const kanji   = document.getElementById('f-kanji').value;
   const banchou = document.getElementById('f-banchou').checked;
+  const tokan   = document.getElementById('f-tokan').checked;
 
   if (!han)    { showToast('❌ 班名を入力してください', true); return; }
   if (!name)   { showToast('❌ 氏名を入力してください', true); return; }
@@ -1048,7 +1073,7 @@ window.addRecord = async function() {
   btn.textContent = '登録中...';
 
   try {
-    await push(ref(db, 'meibo'), { han, name, kana, kanji, banchou, course, kaisou, day, time, payment, biko, createdAt: Date.now() });
+    await push(ref(db, 'meibo'), { han, name, kana, kanji, banchou, tokan, course, kaisou, day, time, payment, biko, createdAt: Date.now() });
     showToast('✅ 登録しました！');
     document.getElementById('f-han').value = '';
     document.getElementById('f-name').value = '';
@@ -1056,6 +1081,7 @@ window.addRecord = async function() {
     document.getElementById('f-biko').value = '';
     document.getElementById('f-kanji').value = '';
     document.getElementById('f-banchou').checked = false;
+    document.getElementById('f-tokan').checked = false;
     document.querySelectorAll('input[type="radio"]').forEach(r => r.checked = false);
     document.getElementById('sub-day').classList.remove('show');
     document.getElementById('sub-time').classList.remove('show');
@@ -1092,6 +1118,7 @@ window.saveEdit = async function() {
   const kana    = document.getElementById('edit-kana').value.trim();
   const kanji   = document.getElementById('edit-kanji').value;
   const banchou = document.getElementById('edit-banchou').checked;
+  const tokan   = document.getElementById('edit-tokan').checked;
 
   if (!han)    { showToast('❌ 班名を入力してください', true); return; }
   if (!name)   { showToast('❌ 氏名を入力してください', true); return; }
@@ -1104,7 +1131,7 @@ window.saveEdit = async function() {
   if (!kanji)  { showToast('❌ 担当幹事を選択してください', true); return; }
 
   try {
-    await update(ref(db, 'meibo/' + id), { han, name, kana, kanji, banchou, course, kaisou, day, time, payment, biko });
+    await update(ref(db, 'meibo/' + id), { han, name, kana, kanji, banchou, tokan, course, kaisou, day, time, payment, biko });
 
     // 同じ班名で担当幹事が未設定の人を一括更新
     const targets = (window._records || []).filter(r => r.id !== id && r.han === han && !r.kanji);
@@ -1142,6 +1169,7 @@ function openEditModal(id) {
   document.getElementById('edit-kana').value   = r.kana    || '';
   document.getElementById('edit-kanji').value  = r.kanji   || '';
   document.getElementById('edit-banchou').checked = !!r.banchou;
+  document.getElementById('edit-tokan').checked   = !!r.tokan;
   document.getElementById('edit-dup-warn').classList.remove('show');
 
   // ラジオ初期化
@@ -1237,9 +1265,15 @@ function toggleBanchouChip(el) {
   renderTable();
 }
 
+function toggleTokanChip(el) {
+  el.classList.toggle('active');
+  renderTable();
+}
+
 function resetFilters() {
   document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
   document.querySelectorAll('[data-filter-banchou]').forEach(c => c.classList.remove('active'));
+  document.querySelectorAll('[data-filter-tokan]').forEach(c => c.classList.remove('active'));
   const sel = document.getElementById('filter-han');
   if (sel) sel.value = '';
   renderTable();
@@ -1249,14 +1283,17 @@ function getFilteredRecords() {
   const f = {};
   document.querySelectorAll('.chip.active').forEach(c => {
     const key = c.dataset.filter;
+    if (!key) return; // data-filter なし（banchou・tokan チップ）はスキップ
     if (!f[key]) f[key] = [];
     f[key].push(c.dataset.val);
   });
-  const hanVal     = document.getElementById('filter-han')?.value || '';
+  const hanVal      = document.getElementById('filter-han')?.value || '';
   const banchouOnly = document.querySelector('[data-filter-banchou].active') !== null;
+  const tokanOnly   = document.querySelector('[data-filter-tokan].active') !== null;
   return (window._records || []).filter(r => {
     if (hanVal && r.han !== hanVal) return false;
     if (banchouOnly && !r.banchou) return false;
+    if (tokanOnly   && !r.tokan)   return false;
     for (const [key, vals] of Object.entries(f)) {
       if (!vals.includes(r[key] || '')) return false;
     }
@@ -1291,7 +1328,7 @@ function renderTable() {
 
   const tbody = document.getElementById('meibo-body');
   if (data.length === 0) {
-    tbody.innerHTML = '<tr><td colspan="13"><div class="empty-state"><div class="icon">📭</div>データがありません</div></td></tr>';
+    tbody.innerHTML = '<tr><td colspan="14"><div class="empty-state"><div class="icon">📭</div>データがありません</div></td></tr>';
     return;
   }
 
@@ -1301,6 +1338,7 @@ function renderTable() {
       <td style="color:var(--text-muted);font-size:0.73rem">${i + 1}</td>
       <td style="white-space:nowrap">${r.kanji ? `<span class="badge kanji${KO2[r.kanji]??''}">${esc(r.kanji)}</span>` : '<span style="color:var(--text-muted)">—</span>'}</td>
       <td style="white-space:nowrap">${r.banchou ? '<span class="banchou-mark">⭐ 班長</span>' : '<span style="color:var(--text-muted)">—</span>'}</td>
+      <td style="white-space:nowrap">${r.tokan ? '<span style="background:#fee2e2;color:#b91c1c;font-size:0.72rem;font-weight:700;padding:2px 8px;border-radius:10px;">未入力</span>' : '<span style="color:var(--text-muted)">—</span>'}</td>
       <td style="white-space:nowrap">${esc(r.han)}</td>
       <td style="white-space:nowrap"><strong>${esc(r.name)}</strong></td>
       <td style="white-space:nowrap;color:var(--text-muted);font-size:0.78rem">${esc(r.kana) || '—'}</td>
@@ -1545,10 +1583,10 @@ function doPDFExport(sortBy) {
 // ===== Excel出力 =====
 function exportExcel() {
   const data = getFilteredRecords();
-  const wsData = [['#','担当幹事','班長','班名','氏名','ふりがな','コース','御開扉','参加日','回次','入金','備考']];
-  data.forEach((r, i) => wsData.push([i+1, r.kanji||'', r.banchou?'班長':'', r.han, r.name, r.kana||'', r.course, r.kaisou, r.day||'', r.time||'', r.payment||'', r.biko||'']));
+  const wsData = [['#','担当幹事','班長','統監部未入力','班名','氏名','ふりがな','コース','御開扉','参加日','回次','入金','備考']];
+  data.forEach((r, i) => wsData.push([i+1, r.kanji||'', r.banchou?'班長':'', r.tokan?'未入力':'', r.han, r.name, r.kana||'', r.course, r.kaisou, r.day||'', r.time||'', r.payment||'', r.biko||'']));
   const ws = XLSX.utils.aoa_to_sheet(wsData);
-  ws['!cols'] = [{wch:4},{wch:14},{wch:6},{wch:12},{wch:16},{wch:16},{wch:8},{wch:8},{wch:10},{wch:8},{wch:8},{wch:20}];
+  ws['!cols'] = [{wch:4},{wch:14},{wch:6},{wch:8},{wch:12},{wch:16},{wch:16},{wch:8},{wch:8},{wch:10},{wch:8},{wch:8},{wch:20}];
   const wb = XLSX.utils.book_new();
   XLSX.utils.book_append_sheet(wb, ws, '名簿');
   XLSX.writeFile(wb, `名簿_${new Date().toISOString().slice(0,10)}.xlsx`);
